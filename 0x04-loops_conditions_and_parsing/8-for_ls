@@ -1,1 +1,10 @@
 #!/usr/bin/env bash
+# Displays:
+# The content of the current directory
+# In a list format
+# Where only the part of the name after the first dash is displayed
+list=$(ls)
+for nm in $list
+do
+	find "$nm" | cut -d'-' -f2
+done
