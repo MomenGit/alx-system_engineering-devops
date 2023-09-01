@@ -1,0 +1,28 @@
+Board image url: https://drive.google.com/file/d/1T2iM_jobboWRuRZX3Vv2AIVppDDwzGJi/view?usp=sharing
+
+- What a server is
+	- A **server** is a piece of computer hardware or software (computer program) that provides functionality for other programs or devices, called "clients".
+- The role of the domain name
+	- DNS is, in simple words, the technology that translates human-adapted, text-based domain names to machine-adapted, numerical-based IP
+	- i.e. From: www.foobar.com -> to: 8.8.8.8
+- The type of DNS record `www` in `www.foobar.com` is
+	- A CNAME record type
+- The role of the web server is
+	- A web server handles the HTTP protocol, by receiving HTTP requests and send back HTTP responses
+	- Delivers web pages through the HTTP protocol
+- The role of the application server is
+	- The application server serves the business logic
+- The role of the database is
+	- The database is an organized collection of data, its role is to store application data in an organized way
+- What the server using to communicate with the computer of the user requesting the website is
+	- The TCP/IP protocol suite
+- The issues with this infrastructure are:
+- Multiple SPOF due to no replicas of the followings
+	- The Hardware server
+	- The application server
+	- The Nginx web server 
+	- The MySQL Database server
+- Downtime when maintenance needed 
+	- If any maintenance needed for any of the servers (i.e the application server) the system would go down causing low availability
+- Cannot scale if too much incoming traffic
+	- As the server could run out of resources and slow down and there are no replicas or load balancer
