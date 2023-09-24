@@ -1,2 +1,7 @@
-#!/usr/bin/env bash
-# comment
+# connect to a server without typing a password
+Host alx_server
+	User ubuntu
+	Hostname 100.26.235.86
+	PasswordAuthentication no
+	PubkeyAuthentication yes
+	IdentityFile ~/.ssh/school
