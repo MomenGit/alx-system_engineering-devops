@@ -1,2 +1,5 @@
 #!/usr/bin/env bash
-# comment
+# creates an RSA key pair with the name school
+# of 4096 bits and passphrase betty
+
+ssh-keygen -t rsa -b 4096 -f school -N betty
