@@ -1,2 +1,22 @@
 #!/usr/bin/env bash
-# Configure Nginx server so that /redirect_me is redirecting to another page
+# configures a new Ubuntu machine to Install nginx on web-01 server
+# Nginx should be listening on port 80
+# When querying Nginx at its root / with a GET request using curl,
+# it must return a page that contains the string Hello World!
+sudo apt-get update
+sudo apt-get -y install nginx
+sudo ufw allow 'Nginx HTTP'
+
+# Create a backup of default Nginx index file
+sudo cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
+
+# Override default Nginx index file
+sudo chown -R ubuntu /var/www/html
+sudo echo 'Hello World!' > /var/www/html/index.nginx-debian.html
+
+# Set the redirection route
+redirect="\n\tlocation /redirect_me {\n\t\treturn 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n\t}\n"
+
+sudo sed -i "53s|.*|$redirect|" /etc/nginx/sites-enabled/default
+
+sudo service nginx restart
