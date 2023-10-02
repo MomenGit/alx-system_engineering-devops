@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# comment
+sudo sed -i 's/8080 default_server/80 default_server/' sites-enabled/default
+sudo nginx
