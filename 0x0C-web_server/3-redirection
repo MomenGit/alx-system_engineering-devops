@@ -15,13 +15,11 @@ sudo chown -R ubuntu /var/www/html
 echo 'Hello World!' > /var/www/html/index.nginx-debian.html
 
 # Set the redirection route
-#redirect="\n\tlocation /redirect_me {\n\t\treturn 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n\t}\n"
-#sudo sed -i "53s|.*|$redirect|" /etc/nginx/sites-enabled/default
 
-sudo sed -i '/^        listen 80 default_server;/,/server_name localhost;$/a \
+sudo sed -i '/server_name _;/a \
 \
         location /redirect_me {\
-            return 301 http:\/\/www.youtube.com\/watch?v=QH2-TGUlwu4;\
+            return 301 http:\/\/www.youtube.com/watch?v=QH2-TGUlwu4;\
         }' /etc/nginx/sites-enabled/default
 
-sudo service nginx restart
+sudo service nginx start
