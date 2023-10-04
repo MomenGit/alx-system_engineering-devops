@@ -5,21 +5,27 @@
 # it must return a page that contains the string Hello World!
 sudo apt-get update
 sudo apt-get -y install nginx
-sudo ufw allow 'Nginx HTTP'
-
-# Create a backup of default Nginx index file
-sudo cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
 
 # Override default Nginx index file
 sudo chown -R ubuntu /var/www/html
-echo 'Hello World!' > /var/www/html/index.nginx-debian.html
+echo 'Hello World!' > /var/www/html/index.html
 
-# Set the redirection route
+echo "server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    
+    root   /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
 
-sudo sed -i '/server_name _;/a \
-\
-        location /redirect_me {\
-            return 301 http:\/\/www.youtube.com/watch?v=QH2-TGUlwu4;\
-        }' /etc/nginx/sites-enabled/default
+    server_name _;
+    
+    location / {
+        try_files $uri $uri/ =404;
+    }
 
-sudo service nginx start
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+}" | sudo tee /etc/nginx/sites-available/default > /dev/null
+
+sudo service nginx restart
