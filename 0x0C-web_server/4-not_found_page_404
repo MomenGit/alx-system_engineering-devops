@@ -6,8 +6,8 @@ sudo apt-get -y install nginx
 
 # Override default Nginx index file
 sudo chown -R ubuntu /var/www/html
-echo 'Hello World!' > /var/www/html/index.html
-echo 'Ceci n'est pas une page' > /var/www/html/404.html
+echo "Hello World!" > /var/www/html/index.html
+echo "Ceci n'est pas une page" > /var/www/html/404.html
 
 echo "server {
     listen 80 default_server;
@@ -21,7 +21,7 @@ echo "server {
     location /redirect_me {
         return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
     }
-    
+
     error_page 404 /404.html;
 }" | sudo tee /etc/nginx/sites-enabled/default > /dev/null
 
