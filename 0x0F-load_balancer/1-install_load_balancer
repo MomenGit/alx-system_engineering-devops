@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Installand configure HAproxy
+# Configure HAproxy so that it send traffic to web-01 and web-02
+# Distribute requests using a roundrobin algorithm
+sudo apt update
+sudo apt -y install haproxy
+
+sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.orig
+
+sudo chown "$USER:$USER" /etc/haproxy/haproxy.cfg
+
+echo "
+frontend alx_swe_lb
+	bind *:80
+	mode http
+	default_backend alx_swe_servers
+
+backend alx_swe_servers
+	balance roundrobin
+	server 354344-web-01 100.26.235.86:80 check
+	server 354344-web-02 100.26.153.227:80 check" >> /etc/haproxy/haproxy.cfg
+
+sudo service haproxy restart
