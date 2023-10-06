@@ -33,26 +33,20 @@ defaults
         errorfile 503 /etc/haproxy/errors/503.http
         errorfile 504 /etc/haproxy/errors/504.http
 
+# Define a frontend for HTTPS traffic on port 443
+frontend alx_swe_lb_https
+        bind *:443 ssl crt /etc/haproxy/certs/www.momentadev.tech.pem
+        mode http
+        default_backend alx_swe_servers
+
 # Define a frontend for HTTP traffic on port 80
 frontend alx_swe_lb
         bind *:80
         mode http
         default_backend alx_swe_servers
 
-# Define a frontend for HTTPS traffic on port 443
-frontend alx_swe_lb_https
-        bind *:443 ssl crt /etc/letsencrypt/live/www.momentadev.com/fullchain.pem
-        mode http
-        default_backend alx_swe_servers_https
-
 # Define a backend for HTTP traffic
 backend alx_swe_servers
         balance roundrobin
         server 354344-web-01 100.26.235.86:80 check
         server 354344-web-02 100.26.153.227:80 check
-
-# Define a backend for HTTPS traffic
-backend alx_swe_servers_https
-        balance roundrobin
-        server 354344-web-01 127.0.0.1:80 check
-        server 354344-web-02 127.0.0.1:80 check
