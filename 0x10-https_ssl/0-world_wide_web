@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# Function to audit a subdomain
+
+audit_subdomain() {
+    local domain="$1"
+    local subdomain="$2"
+
+    # Get DNS records for the subdomain
+    local dig_output;
+	dig_output=$(dig "$subdomain.$domain")
+
+    # Extract the record type and IP address using awk
+    local record_type;
+	record_type=$(echo "$dig_output" | awk '/^'${subdomain}'\..*IN\s+([A-Z]+).*/ {print $4}')
+    local ip_address;
+	ip_address=$(echo "$dig_output" | awk '/^'${subdomain}'\..*IN\s+([A-Z]+).*/ {print $5}')
+
+    echo "The subdomain $subdomain is a $record_type record and points to $ip_address"
+}
+
+# Main script
+if [[ $# -lt 1 ]]; then
+    echo "Usage: $0 <domain> [<subdomain>]"
+    exit 1
+fi
+
+domain="$1"
+subdomain="$2"
+
+if [[ -z "$subdomain" ]]; then
+    # Default subdomains to audit
+    subdomains=("www" "lb-01" "web-01" "web-02")
+
+    for sub in "${subdomains[@]}"; do
+        audit_subdomain "$domain" "$sub"
+    done
+else
+    audit_subdomain "$domain" "$subdomain"
+fi
