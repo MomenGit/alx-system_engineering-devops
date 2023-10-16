@@ -2,9 +2,7 @@
 # Fix a container so that Nginx is running as the nginx user
 sudo chown nginx:nginx /etc/nginx/nginx.conf
 sudo chmod 644 /etc/nginx/nginx.conf
-if pgrep apache2 > /dev/null; then
-    sudo kill $(pgrep apache2)
-fi
+sudo pkill $(pgrep apache2)
 sudo sed -i "s/listen 80 default_server/listen 8080 default_server/" /etc/nginx/sites-enabled/default
 sudo sed -i 's/listen \[::\]:80 default_server ipv6only=on;/listen \[::\]:8080 default_server ipv6only=on;/' /etc/nginx/sites-enabled/default
 sudo -u nginx nginx
